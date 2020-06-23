@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="初识 webkit浏览器是我们 web 开发的伙伴，那么，你真的懂浏览器吗？接下来的文章就让我们一起来认识浏览器内核 webkit">
+<meta name="description" content="初识 webkit浏览器是我们 web 开发的伙伴，那么，你真的懂浏览器吗？接下来的文章就让我们一起来认识浏览器内核 webkit 1、浏览器特性一个浏览器应该包含的功能  网络 资源管理 网页浏览 多页面管理 插件和扩展 书签管理 历史记录管理 设置管理 下载管理 账户和同步 安全机制 隐私管理 外观主题 开发者工具  2、HTML发展历程 HTML 1.0 1991 年 HTML 4.0 19">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初识Webkit">
 <meta property="og:url" content="http://yoursite.com/2020/04/15/%E5%88%9D%E8%AF%86Webkit/index.html">
 <meta property="og:site_name" content="刘述新的博客">
-<meta property="og:description" content="初识 webkit浏览器是我们 web 开发的伙伴，那么，你真的懂浏览器吗？接下来的文章就让我们一起来认识浏览器内核 webkit">
+<meta property="og:description" content="初识 webkit浏览器是我们 web 开发的伙伴，那么，你真的懂浏览器吗？接下来的文章就让我们一起来认识浏览器内核 webkit 1、浏览器特性一个浏览器应该包含的功能  网络 资源管理 网页浏览 多页面管理 插件和扩展 书签管理 历史记录管理 设置管理 下载管理 账户和同步 安全机制 隐私管理 外观主题 开发者工具  2、HTML发展历程 HTML 1.0 1991 年 HTML 4.0 19">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/04/15/%E5%88%9D%E8%AF%86Webkit/neihe.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/15/%E5%88%9D%E8%AF%86Webkit/xuanran.png">
 <meta property="article:published_time" content="2020-04-15T15:50:05.000Z">
-<meta property="article:modified_time" content="2020-05-20T07:22:06.407Z">
+<meta property="article:modified_time" content="2020-06-15T02:14:06.515Z">
 <meta property="article:author" content="shuxinliu">
 <meta property="article:tag" content="webkit">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/15/%E5%88%9D%E8%AF%86Webkit/neihe.png">
 
 
 
@@ -352,7 +355,93 @@
       
 
       
-        <h3 id="初识-webkit"><a href="#初识-webkit" class="headerlink" title="初识 webkit"></a>初识 webkit</h3><p>浏览器是我们 web 开发的伙伴，那么，你真的懂浏览器吗？接下来的文章就让我们一起来认识浏览器内核 webkit</p>
+        <h2 id="初识-webkit"><a href="#初识-webkit" class="headerlink" title="初识 webkit"></a>初识 webkit</h2><p>浏览器是我们 web 开发的伙伴，那么，你真的懂浏览器吗？接下来的文章就让我们一起来认识浏览器内核 webkit</p>
+<h3 id="1、浏览器特性"><a href="#1、浏览器特性" class="headerlink" title="1、浏览器特性"></a>1、浏览器特性</h3><p>一个浏览器应该包含的功能</p>
+<ul>
+<li>网络</li>
+<li>资源管理</li>
+<li>网页浏览</li>
+<li>多页面管理</li>
+<li>插件和扩展</li>
+<li>书签管理</li>
+<li>历史记录管理</li>
+<li>设置管理</li>
+<li>下载管理</li>
+<li>账户和同步</li>
+<li>安全机制</li>
+<li>隐私管理</li>
+<li>外观主题</li>
+<li>开发者工具</li>
+</ul>
+<h3 id="2、HTML"><a href="#2、HTML" class="headerlink" title="2、HTML"></a>2、HTML</h3><h4 id="发展历程"><a href="#发展历程" class="headerlink" title="发展历程"></a>发展历程</h4><ul>
+<li>HTML 1.0 1991 年</li>
+<li>HTML 4.0 1997 年</li>
+<li>HTML 4.1 1999 年</li>
+<li>HTML 5.0 2012 年</li>
+</ul>
+<p>HTML5 包含了一系列的标准，一共包含了 10 个大的类别</p>
+<table>
+<thead>
+<tr>
+<th align="left">类别</th>
+<th align="left">具体规范</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">离线（offline）</td>
+<td align="left">Application cache Local storage Indexed DB,在线/离线事件</td>
+</tr>
+<tr>
+<td align="left">连接（connectivity）</td>
+<td align="left">Web Sockets, Server-sent 事件</td>
+</tr>
+<tr>
+<td align="left">文件访问 （file access）</td>
+<td align="left">File API,File System,File Writer,ProgressEvents</td>
+</tr>
+<tr>
+<td align="left">语义</td>
+<td align="left">各种新的元素，包括 Media,structural,国际化，Link relation,属性，form 类型，microdata 等方面</td>
+</tr>
+<tr>
+<td align="left">音频和视频</td>
+<td align="left">HTML5 Video, Web Audio WebRTC,Video track 等</td>
+</tr>
+<tr>
+<td align="left">3D 和图形</td>
+<td align="left">Canvas 2D, 3D CSS 变换， WebGL,SVG 等</td>
+</tr>
+<tr>
+<td align="left">展示</td>
+<td align="left">CSS3 2D/3D 变换 ，转换（transition）,WebFonts 等</td>
+</tr>
+<tr>
+<td align="left">性能</td>
+<td align="left">Web Worker,HTTP caching 等</td>
+</tr>
+<tr>
+<td align="left">其他</td>
+<td align="left">触控和鼠标，Shadow DOM，CSS masking 等</td>
+</tr>
+</tbody></table>
+<h3 id="3、浏览器内核及其特性"><a href="#3、浏览器内核及其特性" class="headerlink" title="3、浏览器内核及其特性"></a>3、浏览器内核及其特性</h3><h4 id="内核和主流内核"><a href="#内核和主流内核" class="headerlink" title="内核和主流内核"></a>内核和主流内核</h4><p>在浏览器中，有一个<font color="red">最重要</font>的模块，<font color="red">它主要的作用是将页面转变成可视化的图像结果</font><br>这就是<font color="red">浏览器内核</font>，通常，它也被称为<font color="red">渲染引擎</font></p>
+<p>目前主流的渲染引擎包括 Trident,Gecko,和 Webkit 他们分别是 IE,火狐和 Chrome 的内核（2013 年 Google 宣布了 Blink 内核,它其实是从 Webkit 复制出去的）</p>
+<h4 id="内核特征"><a href="#内核特征" class="headerlink" title="内核特征"></a>内核特征</h4><p>根据渲染引擎所提供的渲染网页的功能，它需要包含下图所示的众多功能模块。图上主要分为三层，最上层使用虚线框住的是渲染引擎所提供的功能</p>
+<img src="/2020/04/15/%E5%88%9D%E8%AF%86Webkit/neihe.png" class="" title="渲染引擎模块及其依赖的模块">
+
+<p>从图中大致可以看出，一个渲染引擎主要包括</p>
+<p>HTML 解释器、CSS 解释器、布局和 JavaScript 引擎等</p>
+<ul>
+<li>HTML 解释器： 解释 HTML 文本的解释器，主要作用是将 HTML 文本解释成 DOM（文档对象模型）树，DOM 是一种文档的表示方法</li>
+<li>CSS 解释器：级联样式表的解释器，它的作用是为 DOM 中各个元素计算出样式信息，从而为计算最后网页的布局提供基础设施</li>
+<li>布局：在 DOM 创建之后 Webkit 需要将其中的元素对象同样式信息结合起来，计算它们的大小样式等布局信息，形成一个能够表示这所有信息的内部表示模型</li>
+<li>JavaScript 引擎：使用 JavaScript 代码可以修改网页的内容，也能修改 CSS 的信息，JavaScript 引擎能够解释 JavaScript 代码，并通过 DOM 接口和 CSSOM 接口来修改网页内容和样式信息，从而改变渲染的结果</li>
+<li>绘图：使用图形库将布局计算后的各个网页的节点绘制成图像的结果</li>
+</ul>
+<p>在了解了这些主要模块之后，下面介绍这些模块是如何一起工作完成网页的渲染过程，一般的，一个典型网页的渲染过程如下图所示</p>
+<img src="/2020/04/15/%E5%88%9D%E8%AF%86Webkit/xuanran.png" class="" title="典型渲染过程">
+
+<h2 id="WebKit-内核"><a href="#WebKit-内核" class="headerlink" title="WebKit 内核"></a>WebKit 内核</h2><h3 id="Webkit-和-Webkit2"><a href="#Webkit-和-Webkit2" class="headerlink" title="Webkit 和 Webkit2"></a>Webkit 和 Webkit2</h3><h3 id="Chromium-内核：Blink"><a href="#Chromium-内核：Blink" class="headerlink" title="Chromium 内核：Blink"></a>Chromium 内核：Blink</h3><p>历史总是惊人的相似，当年发生在 KHTML 上的事情，也同样发生在 Webkit 项目上。2013 年 4 月，Google 宣布从 Webkit 复制出来并独立运作的 Blink 项目。</p>
 
       
     </div>
@@ -472,7 +561,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -483,7 +572,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -494,7 +583,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -527,7 +616,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#初识-webkit"><span class="nav-number">1.</span> <span class="nav-text">初识 webkit</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初识-webkit"><span class="nav-number">1.</span> <span class="nav-text">初识 webkit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、浏览器特性"><span class="nav-number">1.1.</span> <span class="nav-text">1、浏览器特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、HTML"><span class="nav-number">1.2.</span> <span class="nav-text">2、HTML</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#发展历程"><span class="nav-number">1.2.1.</span> <span class="nav-text">发展历程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、浏览器内核及其特性"><span class="nav-number">1.3.</span> <span class="nav-text">3、浏览器内核及其特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内核和主流内核"><span class="nav-number">1.3.1.</span> <span class="nav-text">内核和主流内核</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内核特征"><span class="nav-number">1.3.2.</span> <span class="nav-text">内核特征</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebKit-内核"><span class="nav-number">2.</span> <span class="nav-text">WebKit 内核</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Webkit-和-Webkit2"><span class="nav-number">2.1.</span> <span class="nav-text">Webkit 和 Webkit2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chromium-内核：Blink"><span class="nav-number">2.2.</span> <span class="nav-text">Chromium 内核：Blink</span></a></li></ol></li></ol></div>
             
 
           </div>

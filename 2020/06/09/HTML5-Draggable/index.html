@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="拖拽," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="拖拽HTML 拖放（Drag and Drop）接口使应用程序能够在浏览器中使用拖放功能。例如，用户可使用鼠标选择可拖动（draggable）元素，将元素拖动到可放置（droppable）元素，并释放鼠标按钮以放置这些元素。拖动操作期间，可拖动元素会有一个半透明表示跟随着鼠标指针 拖拽事件HTML 的 drag &amp; drop 使用了 DOM event model 以及从 mouse ev">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML5_Draggable">
+<meta property="og:url" content="http://yoursite.com/2020/06/09/HTML5-Draggable/index.html">
+<meta property="og:site_name" content="刘述新的博客">
+<meta property="og:description" content="拖拽HTML 拖放（Drag and Drop）接口使应用程序能够在浏览器中使用拖放功能。例如，用户可使用鼠标选择可拖动（draggable）元素，将元素拖动到可放置（droppable）元素，并释放鼠标按钮以放置这些元素。拖动操作期间，可拖动元素会有一个半透明表示跟随着鼠标指针 拖拽事件HTML 的 drag &amp; drop 使用了 DOM event model 以及从 mouse ev">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-09T08:55:17.000Z">
+<meta property="article:modified_time" content="2020-06-11T02:54:54.590Z">
+<meta property="article:author" content="shuxinliu">
+<meta property="article:tag" content="拖拽">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/06/09/HTML5-Draggable/"/>
+
+
+
+
+
+  <title>HTML5_Draggable | 刘述新的博客</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">刘述新的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/HTML5-Draggable/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shuxinliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘述新的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HTML5_Draggable</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-09T16:55:17+08:00">
+                2020-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML5/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML5</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="拖拽"><a href="#拖拽" class="headerlink" title="拖拽"></a>拖拽</h2><p>HTML 拖放（Drag and Drop）接口使应用程序能够在浏览器中使用拖放功能。例如，用户可使用鼠标选择可拖动（draggable）元素，将元素拖动到可放置（droppable）元素，并释放鼠标按钮以放置这些元素。拖动操作期间，可拖动元素会有一个半透明表示跟随着鼠标指针</p>
+<h3 id="拖拽事件"><a href="#拖拽事件" class="headerlink" title="拖拽事件"></a>拖拽事件</h3><p>HTML 的 drag &amp; drop 使用了 DOM event model 以及从 mouse events 继承而来的 drag events 。一个典型的拖拽操作开始于用户选中一个可拖动的（draggable）元素，并将其拖动（鼠标不放开）到一个可放置的（droppable）元素，然后释放鼠标。</p>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>HTML 的拖拽接口有 DragEvent, DataTransfer, DataTransferItem 和 DataTransferItemList</p>
+<h3 id="DataTransfer"><a href="#DataTransfer" class="headerlink" title="DataTransfer"></a>DataTransfer</h3><p>DataTransfer 对象用于保存拖动并放下（drag and drop）过程中的数据。它可以保存一项或多项数据，这些数据项可以是一种或者多种数据类型。关于拖放的更多信息<br>这个对象可以从所有拖动事件 drag events 的 dataTransfer 属性上获取。</p>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="确定什么是可拖动的"><a href="#确定什么是可拖动的" class="headerlink" title="确定什么是可拖动的"></a>确定什么是可拖动的</h3><p>让一个元素被拖动需要添加 draggable 属性，再加上全局事件处理函数 ondragstart，如下面的示例代码所示</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">  <span class="function"><span class="keyword">function</span> <span class="title">dragstart_handler</span><span class="params">(ev)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// Add the target element's id to the data transfer object</span></span></span><br><span class="line"><span class="actionscript">    ev.dataTransfer.setData(<span class="string">"text/plain"</span>, ev.target.id);</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">  <span class="built_in">window</span>.addEventListener(<span class="string">"DOMContentLoaded"</span>, () =&gt; &#123;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// Get the element by id</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> element = <span class="built_in">document</span>.getElementById(<span class="string">"p1"</span>);</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// Add the ondragstart event listener</span></span></span><br><span class="line"><span class="actionscript">    element.addEventListener(<span class="string">"dragstart"</span>, dragstart_handler);</span></span><br><span class="line">  &#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"p1"</span> <span class="attr">draggable</span>=<span class="string">"true"</span>&gt;</span>This element is draggable.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="定义拖动数据"><a href="#定义拖动数据" class="headerlink" title="定义拖动数据"></a>定义拖动数据</h3><p>应用程序可以在拖动操作中包含任意数量的数据项。每个数据项都是一个 string 类型，典型的 MIME 类型，如：text/html</p>
+<p>每个 drag event 都有一个 dataTransfer 属性，其中保存着事件的数据。这个属性（DataTransfer 对象）也有管理拖动数据的方法。setData() 方法为拖拽数据添加一个项，如下面的示例代码所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dragstart_handler</span>(<span class="params">ev</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 添加拖拽数据</span></span><br><span class="line">  ev.dataTransfer.setData(<span class="string">"text/plain"</span>, ev.target.innerText);</span><br><span class="line">  ev.dataTransfer.setData(<span class="string">"text/html"</span>, ev.target.outerHTML);</span><br><span class="line">  ev.dataTransfer.setData(</span><br><span class="line">    <span class="string">"text/uri-list"</span>,</span><br><span class="line">    ev.target.ownerDocument.location.href</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义拖动图像"><a href="#定义拖动图像" class="headerlink" title="定义拖动图像"></a>定义拖动图像</h3><p>拖动过程中，浏览器会在鼠标旁显示一张默认图片。当然，应用程序也可以通过 setDragImage() 方法自定义一张图片，如下面的例子所示</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dragstart_handler</span>(<span class="params">ev</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Create an image and then use it for the drag image.</span></span><br><span class="line">  <span class="comment">// <span class="doctag">NOTE:</span> change "example.gif" to a real image URL or the image</span></span><br><span class="line">  <span class="comment">// will not be created and the default drag image will be used.</span></span><br><span class="line">  <span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">  img.src = <span class="string">"example.gif"</span>;</span><br><span class="line">  ev.dataTransfer.setDragImage(img, <span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义拖动效果"><a href="#定义拖动效果" class="headerlink" title="定义拖动效果"></a>定义拖动效果</h3><p>dropEffect 属性用来控制拖放操作中用户给予的反馈。它会影响到拖动过程中浏览器显示的鼠标样式。比如，当用户悬停在目标元素上的时候，浏览器鼠标也许要反映拖放操作的类型</p>
+<ol>
+<li>copy 表明被拖动的数据将从它原本的位置拷贝到目标的位置。</li>
+<li>move 表明被拖动的数据将被移动。</li>
+<li>link 表明在拖动源位置和目标位置之间将会创建一些关系表格或是连接。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dragstart_handler</span>(<span class="params">ev</span>) </span>&#123;</span><br><span class="line">  ev.dataTransfer.dropEffect = <span class="string">"copy"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义一个放置区"><a href="#定义一个放置区" class="headerlink" title="定义一个放置区"></a>定义一个放置区</h3><p>当拖动一个项目到 HTML 元素中时，浏览器默认不会有任何响应。想要让一个元素变成可释放区域，该元素必须设置 ondragover 和 ondrop 事件处理程序属性，下面的例子通过简单的事件处理展示了如何使用这些属性：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">  <span class="function"><span class="keyword">function</span> <span class="title">dragover_handler</span><span class="params">(ev)</span> </span>&#123;</span></span><br><span class="line">    ev.preventDefault();</span><br><span class="line"><span class="actionscript">    ev.dataTransfer.dropEffect = <span class="string">"move"</span>;</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="actionscript">  <span class="function"><span class="keyword">function</span> <span class="title">drop_handler</span><span class="params">(ev)</span> </span>&#123;</span></span><br><span class="line">    ev.preventDefault();</span><br><span class="line"><span class="actionscript">    <span class="comment">// Get the id of the target and add the moved element to the target's DOM</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> data = ev.dataTransfer.getData(<span class="string">"text/plain"</span>);</span></span><br><span class="line"><span class="javascript">    ev.target.appendChild(<span class="built_in">document</span>.getElementById(data));</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span></span></span><br><span class="line"><span class="tag">  <span class="attr">id</span>=<span class="string">"target"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">ondrop</span>=<span class="string">"drop_handler(event)"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">ondragover</span>=<span class="string">"dragover_handler(event)"</span></span></span><br><span class="line"><span class="tag">&gt;</span></span><br><span class="line">  Drop Zone</span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="处理放置效果"><a href="#处理放置效果" class="headerlink" title="处理放置效果"></a>处理放置效果</h3><p>drop 事件的处理程序是以程序指定的方法处理拖动数据。一般，程序调用 getData() 方法取出拖动项目并按一定方式处理。程序意义根据 dropEffect 的值与/或可变更关键字的状态而不同</p>
+<p>下面的例子展示了一个处理程序，从拖动数据中获取事件源元素的 id 然后根据 id 移动源元素到目标元素：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">  <span class="function"><span class="keyword">function</span> <span class="title">dragstart_handler</span><span class="params">(ev)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// Add the target element's id to the data transfer object</span></span></span><br><span class="line"><span class="actionscript">    ev.dataTransfer.setData(<span class="string">"application/my-app"</span>, ev.target.id);</span></span><br><span class="line"><span class="actionscript">    ev.dataTransfer.dropEffect = <span class="string">"move"</span>;</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="actionscript">  <span class="function"><span class="keyword">function</span> <span class="title">dragover_handler</span><span class="params">(ev)</span> </span>&#123;</span></span><br><span class="line">    ev.preventDefault();</span><br><span class="line"><span class="actionscript">    ev.dataTransfer.dropEffect = <span class="string">"move"</span>;</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="actionscript">  <span class="function"><span class="keyword">function</span> <span class="title">drop_handler</span><span class="params">(ev)</span> </span>&#123;</span></span><br><span class="line">    ev.preventDefault();</span><br><span class="line"><span class="actionscript">    <span class="comment">// Get the id of the target and add the moved element to the target's DOM</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> data = ev.dataTransfer.getData(<span class="string">"application/my-app"</span>);</span></span><br><span class="line"><span class="javascript">    ev.target.appendChild(<span class="built_in">document</span>.getElementById(data));</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"p1"</span> <span class="attr">draggable</span>=<span class="string">"true"</span> <span class="attr">ondragstart</span>=<span class="string">"dragstart_handler(event)"</span>&gt;</span></span><br><span class="line">  This element is draggable.</span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span></span></span><br><span class="line"><span class="tag">  <span class="attr">id</span>=<span class="string">"target"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">ondrop</span>=<span class="string">"drop_handler(event)"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">ondragover</span>=<span class="string">"dragover_handler(event)"</span></span></span><br><span class="line"><span class="tag">&gt;</span></span><br><span class="line">  Drop Zone</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="拖动结束"><a href="#拖动结束" class="headerlink" title="拖动结束"></a>拖动结束</h3><p>拖动操作结束时，在源元素（开始拖动时的目标元素）上触发 dragend 事件。不管拖动是完成还是被取消这个事件都会被触发。dragend 事件处理程序可以检查 dropEffect 属性的值来确认拖动成功与否</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%8B%96%E6%8B%BD/" rel="tag"># 拖拽</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/04/React%E7%B3%BB%E5%88%97%E4%B9%8B-%E4%BA%8B%E4%BB%B6%E4%BB%A3%E7%90%86/" rel="next" title="React系列之-事件代理">
+                <i class="fa fa-chevron-left"></i> React系列之-事件代理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/16/HTML%E7%BD%91%E9%A1%B5%E5%92%8C%E7%BB%93%E6%9E%84/" rel="prev" title="HTML网页和结构">
+                HTML网页和结构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">shuxinliu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#拖拽"><span class="nav-number">1.</span> <span class="nav-text">拖拽</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拖拽事件"><span class="nav-number">1.1.</span> <span class="nav-text">拖拽事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口"><span class="nav-number">1.2.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataTransfer"><span class="nav-number">1.3.</span> <span class="nav-text">DataTransfer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">2.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#确定什么是可拖动的"><span class="nav-number">2.1.</span> <span class="nav-text">确定什么是可拖动的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义拖动数据"><span class="nav-number">2.2.</span> <span class="nav-text">定义拖动数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义拖动图像"><span class="nav-number">2.3.</span> <span class="nav-text">定义拖动图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义拖动效果"><span class="nav-number">2.4.</span> <span class="nav-text">定义拖动效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义一个放置区"><span class="nav-number">2.5.</span> <span class="nav-text">定义一个放置区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理放置效果"><span class="nav-number">2.6.</span> <span class="nav-text">处理放置效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拖动结束"><span class="nav-number">2.7.</span> <span class="nav-text">拖动结束</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shuxinliu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="非常规命令在实际的工作过程中我们往往会用到一些 git 命令，但是我们时长很难记住他们，这里就做下总结记录，便于以后快速查阅  git cherry-pick commitId利用 git log 查看要合并的提交 commitId 然后利用这个命令来合并  2) 在历史的迭代中，我们有可能把一些文件加入 git 版本跟踪，但是发现不需要，那么我们应该怎么去除跟踪呢？ 123git rm -r -">
+<meta name="description" content="非常规命令在实际的工作过程中我们往往会用到一些 git 命令，但是我们时长很难记住他们，这里就做下总结记录，便于以后快速查阅  git cherry-pick commitId利用 git log 查看要合并的提交 commitId 然后利用这个命令来合并  在历史的迭代中，我们有可能把一些文件加入 git 版本跟踪，但是发现不需要，那么我们应该怎么去除跟踪呢？   123git rm -r --">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git常用方法">
 <meta property="og:url" content="http://yoursite.com/2020/04/14/Git%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="刘述新的博客">
-<meta property="og:description" content="非常规命令在实际的工作过程中我们往往会用到一些 git 命令，但是我们时长很难记住他们，这里就做下总结记录，便于以后快速查阅  git cherry-pick commitId利用 git log 查看要合并的提交 commitId 然后利用这个命令来合并  2) 在历史的迭代中，我们有可能把一些文件加入 git 版本跟踪，但是发现不需要，那么我们应该怎么去除跟踪呢？ 123git rm -r -">
+<meta property="og:description" content="非常规命令在实际的工作过程中我们往往会用到一些 git 命令，但是我们时长很难记住他们，这里就做下总结记录，便于以后快速查阅  git cherry-pick commitId利用 git log 查看要合并的提交 commitId 然后利用这个命令来合并  在历史的迭代中，我们有可能把一些文件加入 git 版本跟踪，但是发现不需要，那么我们应该怎么去除跟踪呢？   123git rm -r --">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-14T04:49:58.000Z">
-<meta property="article:modified_time" content="2020-05-20T07:21:01.656Z">
+<meta property="article:modified_time" content="2020-06-17T06:14:37.898Z">
 <meta property="article:author" content="shuxinliu">
 <meta property="article:tag" content="Git基础">
 <meta name="twitter:card" content="summary">
@@ -354,13 +354,24 @@
       
         <h2 id="非常规命令"><a href="#非常规命令" class="headerlink" title="非常规命令"></a>非常规命令</h2><p>在实际的工作过程中我们往往会用到一些 git 命令，但是我们时长很难记住他们，这里就做下总结记录，便于以后快速查阅</p>
 <ol>
-<li>git cherry-pick commitId<br>利用 git log 查看要合并的提交 commitId 然后<br>利用这个命令来合并</li>
+<li><p>git cherry-pick commitId<br>利用 git log 查看要合并的提交 commitId 然后<br>利用这个命令来合并</p>
+</li>
+<li><p>在历史的迭代中，我们有可能把一些文件加入 git 版本跟踪，但是发现不需要，那么我们应该怎么去除跟踪呢？</p>
+</li>
 </ol>
-<p>2) 在历史的迭代中，我们有可能把一些文件加入 git 版本跟踪，但是发现不需要，那么我们应该怎么去除跟踪呢？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m &#39;清楚永远不想跟踪的文件&#39;</span><br></pre></td></tr></table></figure>
 
-<p>3、清除在线上已经删除的分支信息，而在本地的缓存</p>
+<ol start="3">
+<li>清除在线上已经删除的分支信息，而在本地的缓存</li>
+</ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote update origin --prune</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>状态信息：deleted by us<br>出现场景：</p>
+</li>
+<li><p>状态信息：both added</p>
+</li>
+</ol>
 
       
     </div>
@@ -480,7 +491,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -491,7 +502,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -502,7 +513,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

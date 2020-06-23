@@ -259,6 +259,473 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/04/Design-Mode-Observer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shuxinliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘述新的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/04/Design-Mode-Observer/" itemprop="url">JavaScript观察者模式（发布订阅模式）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-04T21:59:47+08:00">
+                2020-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="实现示例"><a href="#实现示例" class="headerlink" title="实现示例"></a>实现示例</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> eventuality = <span class="function"><span class="keyword">function</span> (<span class="params">that</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> registry = &#123;&#125;;</span><br><span class="line">  <span class="comment">//触发事件</span></span><br><span class="line">  that.fire = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> array,</span><br><span class="line">      func,</span><br><span class="line">      handler,</span><br><span class="line">      i,</span><br><span class="line">      type = <span class="keyword">typeof</span> event === <span class="string">"string"</span> ? event : event.type;</span><br><span class="line">    <span class="keyword">if</span> (registry.hasOwnProperty(type)) &#123;</span><br><span class="line">      array = registry[type];</span><br><span class="line">      <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; array.length; i += <span class="number">1</span>) &#123;</span><br><span class="line">        handler = array[i];</span><br><span class="line">        func = handler.method;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> func === <span class="string">"string"</span>) &#123;</span><br><span class="line">          func = <span class="keyword">this</span>[func];</span><br><span class="line">        &#125;</span><br><span class="line">        func.apply(<span class="keyword">this</span>, handler.parameters || [event]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  that.on = <span class="function"><span class="keyword">function</span> (<span class="params">type, method, parameters</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> handler = &#123;</span><br><span class="line">      method: method,</span><br><span class="line">      parameters: parameters,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">if</span> (registry.hasOwnProperty(type)) &#123;</span><br><span class="line">      registry[type].push(handler);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      registry[type] = [handler];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> that;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> objectEventTest = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  b: <span class="number">2</span>,</span><br><span class="line">  getA: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</span><br><span class="line">  &#125;,</span><br><span class="line">  getB: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span><br><span class="line">  &#125;,</span><br><span class="line">  showC: <span class="function"><span class="keyword">function</span> (<span class="params">c</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(c);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">eventuality(objectEventTest);</span><br><span class="line">objectEventTest.on(<span class="string">"show"</span>, <span class="string">"getA"</span>);</span><br><span class="line">objectEventTest.on(<span class="string">"show"</span>, <span class="string">"getB"</span>);</span><br><span class="line">objectEventTest.on(<span class="string">"show1"</span>, <span class="string">"showC"</span>, [<span class="string">"show C!!"</span>]);</span><br><span class="line">objectEventTest.fire(<span class="string">"show"</span>);</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shuxinliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘述新的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" itemprop="url">浏览器缓存机制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-03T22:58:50+08:00">
+                2020-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">浏览器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="缓存意义"><a href="#缓存意义" class="headerlink" title="缓存意义"></a>缓存意义</h2><p>&emsp;&emsp;在对一个网页进行访问时，需要从对应服务器端获取资源（html,js,css.img，etc）,而在获取资源的同时，会消耗网络流量。页面获得资源后才能渲染，产生一定的延迟时间。对服务器的资源也会有一定的消耗。为了优化以上存在的问题，我们采用浏览器端缓存来优化网页的性能，与之相对应</p>
+<h3 id="缓存的作用主要有："><a href="#缓存的作用主要有：" class="headerlink" title="缓存的作用主要有："></a>缓存的作用主要有：</h3><ul>
+<li>节约带宽。</li>
+<li>减少延迟。</li>
+<li>降低服务器压力。</li>
+</ul>
+<h3 id="客户端（浏览器）的缓存机制"><a href="#客户端（浏览器）的缓存机制" class="headerlink" title="客户端（浏览器）的缓存机制"></a>客户端（浏览器）的缓存机制</h3><p>&emsp;&emsp;对于浏览器的缓存，这些规则是在 HTTP 协议头和 html 页面的 meta 标签中定义的。它们从新鲜度 和校验值<br>需要注意的是 Http 头中的设置优先级更高一些<br>两个维度来决定浏览器是否可以直接使用缓存中的副本</p>
+<p>各字段详解：<a href="http://ourjs.com/detail/581d26b271e01c68e9619152" target="_blank" rel="noopener">http://ourjs.com/detail/581d26b271e01c68e9619152</a></p>
+<img src="/2020/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/cache3.png" class="" title="浏览器缓存基本原理">
+
+<img src="/2020/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/cache0.png" class="" title="缓存机制">
+
+<img src="/2020/06/03/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/cache1.png" class="" title="浏览器刷新原理">
+
+<h4 id="相关资料："><a href="#相关资料：" class="headerlink" title="相关资料："></a>相关资料：</h4><ul>
+<li><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching" target="_blank" rel="noopener">https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/03/javascript%E4%B8%AD%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shuxinliu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘述新的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/03/javascript%E4%B8%AD%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7-1/" itemprop="url">javascript 中运算符的优先级</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-03T22:44:11+08:00">
+                2020-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="javascript-中运算符优先级"><a href="#javascript-中运算符优先级" class="headerlink" title="javascript 中运算符优先级"></a>javascript 中运算符优先级</h2><h3 id="1、"><a href="#1、" class="headerlink" title="1、 . [] {}"></a>1、 . [] {}</h3><p>提取属性与调用函数</p>
+<h3 id="2、-delete-new-typeof"><a href="#2、-delete-new-typeof" class="headerlink" title="2、 delete new typeof + - !"></a>2、 delete new typeof + - !</h3><p>一元运算符</p>
+<h3 id="3、"><a href="#3、" class="headerlink" title="3、* / %"></a>3、* / %</h3><p>乘法，除法，求余</p>
+<h3 id="4、"><a href="#4、" class="headerlink" title="4、+ -"></a>4、+ -</h3><p>加法，减法</p>
+<h3 id="5、-gt-lt-gt-lt"><a href="#5、-gt-lt-gt-lt" class="headerlink" title="5、&gt;= &lt;= &gt; &lt;"></a>5、&gt;= &lt;= &gt; &lt;</h3><p>不等式的运算符</p>
+<h3 id="6、-！"><a href="#6、-！" class="headerlink" title="6、 === ！=="></a>6、 === ！==</h3><p>等式运算符</p>
+<h3 id="7、-amp-amp"><a href="#7、-amp-amp" class="headerlink" title="7、 &amp;&amp;"></a>7、 &amp;&amp;</h3><p>逻辑与</p>
+<h3 id="8、"><a href="#8、" class="headerlink" title="8、||"></a>8、||</h3><p>逻辑或</p>
+<h3 id="9、"><a href="#9、" class="headerlink" title="9、 ? :"></a>9、 ? :</h3><p>三元运算符<br>typeof 运算符产生的值有 “number”,”string”,”boolean”,”undefiend”,”function” “object” ,如果运算数是一个数组或 null ,那么返回的是”object”</p>
+<h2 id="JavaScript-中的位运算符："><a href="#JavaScript-中的位运算符：" class="headerlink" title="JavaScript 中的位运算符："></a>JavaScript 中的位运算符：</h2><p>javascript 中有着和 java 相同的一套位运算符，</p>
+<ul>
+<li><p>&amp;：and 按位与</p>
+</li>
+<li><p>|：or 按位或</p>
+</li>
+<li><p>^： xor 按位异或</p>
+</li>
+<li><p>~：not 按位非</p>
+</li>
+<li><p>&gt; : 带符号的右位移</p>
+</li>
+<li><p>&gt;&gt;&gt; : 无符号的右位移</p>
+</li>
+<li><p>&lt;&lt;: 左位移</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/28/Lodash-Tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1096,7 +1563,16 @@
       
         
           
-            <h3 id="1、使用-hexo-来编写博客，首先需要学会使用-MarkDown-语言来快速写博客，"><a href="#1、使用-hexo-来编写博客，首先需要学会使用-MarkDown-语言来快速写博客，" class="headerlink" title="1、使用 hexo 来编写博客，首先需要学会使用 MarkDown 语言来快速写博客，"></a>1、使用 hexo 来编写博客，首先需要学会使用 MarkDown 语言来快速写博客，</h3><p>语法快速概览地址：<br><a href="http://www.jianshu.com/p/46a4a5e17c20#philosophy" target="_blank" rel="noopener">http://www.jianshu.com/p/46a4a5e17c20#philosophy</a><br>Markdown 教程 :<a href="http://www.appinn.com/markdown/" target="_blank" rel="noopener">http://www.appinn.com/markdown/</a><br>发布到线上的方法：<a href="http://www.jianshu.com/p/f4dce0e76886" target="_blank" rel="noopener">http://www.jianshu.com/p/f4dce0e76886</a><br>Hexo API <a href="https://hexo.io/" target="_blank" rel="noopener">https://hexo.io/</a><br>中文文档：<a href="https://hexo.io/zh-cn/docs/tag-plugins" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/tag-plugins</a></p>
+            <h3 id="常用语法记录"><a href="#常用语法记录" class="headerlink" title="常用语法记录"></a>常用语法记录</h3><ul>
+<li>标红字体</li>
+</ul>
+<p><font color="red">xxx</font></p>
+<ul>
+<li>展示一张图片</li>
+</ul>
+
+
+<h3 id="1、使用-hexo-来编写博客，首先需要学会使用-MarkDown-语言来快速写博客，"><a href="#1、使用-hexo-来编写博客，首先需要学会使用-MarkDown-语言来快速写博客，" class="headerlink" title="1、使用 hexo 来编写博客，首先需要学会使用 MarkDown 语言来快速写博客，"></a>1、使用 hexo 来编写博客，首先需要学会使用 MarkDown 语言来快速写博客，</h3><p>语法快速概览地址：<br><a href="http://www.jianshu.com/p/46a4a5e17c20#philosophy" target="_blank" rel="noopener">http://www.jianshu.com/p/46a4a5e17c20#philosophy</a><br>Markdown 教程 :<a href="http://www.appinn.com/markdown/" target="_blank" rel="noopener">http://www.appinn.com/markdown/</a><br>发布到线上的方法：<a href="http://www.jianshu.com/p/f4dce0e76886" target="_blank" rel="noopener">http://www.jianshu.com/p/f4dce0e76886</a><br>Hexo API <a href="https://hexo.io/" target="_blank" rel="noopener">https://hexo.io/</a><br>中文文档：<a href="https://hexo.io/zh-cn/docs/tag-plugins" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/tag-plugins</a></p>
 <h3 id="2，基本用法命令"><a href="#2，基本用法命令" class="headerlink" title="2，基本用法命令"></a>2，基本用法命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean #清理之前生成的内容，即public文件</span><br><span class="line">$ hexo g #生成静态文件</span><br><span class="line">$ hexo d #部署</span><br><span class="line">$ hexo s #启动本地服务，可以通过http:&#x2F;&#x2F;localhost:4000查看</span><br><span class="line">$ hexo s --debug #使用 debug 模式启动服务</span><br></pre></td></tr></table></figure>
 
 <p>创建新文章方式：</p>
@@ -1279,472 +1755,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/interviewRoad-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shuxinliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘述新的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/20/interviewRoad-1/" itemprop="url">interviewRoad-1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-20T15:35:52+08:00">
-                2020-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/interview/" itemprop="url" rel="index">
-                    <span itemprop="name">interview</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="1、JS-为什么是单线程的-为什么需要异步-单线程又是如何实现异步的呢"><a href="#1、JS-为什么是单线程的-为什么需要异步-单线程又是如何实现异步的呢" class="headerlink" title="1、JS 为什么是单线程的? 为什么需要异步? 单线程又是如何实现异步的呢?"></a>1、JS 为什么是单线程的? 为什么需要异步? 单线程又是如何实现异步的呢?</h2><p>相关申引：<br>这段 setTimeout 代码什么意思? 我们一般说: 3 秒后,会执行 setTimeout 里的那个函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"执行了"</span>);</span><br><span class="line">&#125;, <span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/JavaScript-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF-event-loop/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shuxinliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘述新的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/20/JavaScript-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF-event-loop/" itemprop="url">JavaScript 事件循环(event loop)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-20T14:31:32+08:00">
-                2020-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="JavaScript-事件循环-event-loop"><a href="#JavaScript-事件循环-event-loop" class="headerlink" title="JavaScript 事件循环(event loop)"></a>JavaScript 事件循环(event loop)</h3><p>javascript 里将任务分为同步任务和异步任务</p>
-<p>按照这种分类方式:JS 的执行机制是:</p>
-<ul>
-<li><p>首先判断 JS 是同步还是异步,同步就进入主线程,异步就进入 event table</p>
-</li>
-<li><p>异步任务在 event table 中注册函数,当满足触发条件后,被推入 event queue</p>
-</li>
-<li><p>同步任务进入主线程后一直执行,直到主线程空闲时,才会去 event queue 中查看是否有可执行的异步任务,如果有就推入主线程中<br>以上三步循环执行,这就是 event loop</p>
-<h5 id="然而存在另一种划分任务的方式："><a href="#然而存在另一种划分任务的方式：" class="headerlink" title="然而存在另一种划分任务的方式："></a>然而存在另一种划分任务的方式：</h5></li>
-<li><p>macro-task(宏任务)：包括整体代码 script，setTimeout，setInterval</p>
-</li>
-<li><p>micro-task(微任务)：Promise，process.nextTick</p>
-</li>
-</ul>
-<p>按照这种分类方式:JS 的执行机制是</p>
-<p>执行一个宏任务,过程中如果遇到微任务,就将其放到微任务的【事件队列】里</p>
-<p>当前宏任务执行完成后,会查看微任务的【事件队列】,并将里面全部的微任务依次执行完</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/30/React%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7%EF%BC%88%E4%B8%80%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shuxinliu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="刘述新的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/30/React%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7%EF%BC%88%E4%B8%80%EF%BC%89/" itemprop="url">React高级特性（一）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-30T21:57:57+08:00">
-                2020-04-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index">
-                    <span itemprop="name">React</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1、React-StrictMode"><a href="#1、React-StrictMode" class="headerlink" title="1、React.StrictMode"></a>1、React.StrictMode</h3><p>&emsp;&emsp;是一个用来突出显示应用程序中<font color="red">潜在问题 </font>的工具，StrictMode 不会渲染任何可见的 UI，它为其后代元素触发额外的<font color="red">检查和警告 </font></p>
-<p><em>注意：严格模式检查仅在开发模式下运行；它们不会影响生产构建。</em></p>
-<p>StrictMode 目前有助于：</p>
-<ol>
-<li>识别不安全的生命周期</li>
-<li>关于使用过时字符串 ref API 的警告</li>
-<li>关于使用废弃的 findDOMNode 方法的警告</li>
-<li>检测意外的副作用</li>
-<li>检测过时的 context API</li>
-</ol>
-<p><strong>未来的 React 版本将添加更多额外功能。</strong></p>
-<h3 id="2、Portals"><a href="#2、Portals" class="headerlink" title="2、Portals"></a>2、Portals</h3><p>Portal 提供了一种将子节点渲染到存在于父组件以外的 DOM 节点的优秀的方案</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.createPortal(child, container);</span><br></pre></td></tr></table></figure>
-
-<p>第一个参数（child）是任何可渲染的 React 子元素，例如一个元素，字符串或 fragment。第二个参数（container）是一个 DOM 元素。</p>
-<p>一个 portal 的典型用例是当父组件有 overflow: hidden 或 z-index 样式时，但你需要子组件能够在视觉上“跳出”其容器。例如，对话框、悬浮卡以及提示框</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;createPortal&#125; <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dialog</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>(...arguments);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> doc = <span class="built_in">window</span>.document;</span><br><span class="line">    <span class="keyword">this</span>.node = doc.createElement(<span class="string">"div"</span>);</span><br><span class="line">    doc.body.appendChild(<span class="keyword">this</span>.node);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> createPortal(</span><br><span class="line">      &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"dialog"</span>&gt;&#123;<span class="keyword">this</span>.props.children&#125;&lt;<span class="regexp">/div&gt;, /</span><span class="regexp">/塞进传送门的JSX</span></span><br><span class="line"><span class="regexp">      this.node /</span><span class="regexp">/传送门的另一端DOM node</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  componentWillUnmount() &#123;</span></span><br><span class="line"><span class="regexp">    window.document.body.removeChild(this.node);</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3、Error-Boundaries（错误边界）"><a href="#3、Error-Boundaries（错误边界）" class="headerlink" title="3、Error Boundaries（错误边界）"></a>3、Error Boundaries（错误边界）</h3><p>&emsp;&emsp;部分 UI 的 JavaScript 错误不应该导致整个应用崩溃，为了解决这个问题，React 16 引入了一个新的概念 —— 错误边界</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1790,7 +1805,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1801,7 +1816,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1812,7 +1827,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
